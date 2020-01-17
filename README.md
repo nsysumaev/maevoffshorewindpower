@@ -1,2 +1,0 @@
-# maevoffshorewindpower
-海洋環境及工程學系離岸風電海事工程碩士班

@@ -1,176 +1,361 @@
-(function($) {
-	"use strict"
+(function ($) {
+"use strict";
+// TOP Menu Sticky
+$(window).on('scroll', function () {
+	var scroll = $(window).scrollTop();
+	if (scroll < 400) {
+    $("#sticky-header").removeClass("sticky");
+    $('#back-top').fadeIn(500);
+	} else {
+    $("#sticky-header").addClass("sticky");
+    $('#back-top').fadeIn(500);
+	}
+});
 
-	///////////////////////////
-	// Preloader
-	$(window).on('load', function() {
-		$("#preloader").delay(600).fadeOut();
+
+$(document).ready(function(){
+
+// mobile_menu
+var menu = $('ul#navigation');
+if(menu.length){
+	menu.slicknav({
+		prependTo: ".mobile_menu",
+		closedSymbol: '+',
+		openedSymbol:'-'
 	});
+};
+// blog-menu
+  // $('ul#blog-menu').slicknav({
+  //   prependTo: ".blog_menu"
+  // });
 
-	///////////////////////////
-	// Scrollspy
-	$('body').scrollspy({
-		target: '#nav',
-		offset: $(window).height() / 2
+// review-active
+$('.slider_active').owlCarousel({
+  loop:true,
+  margin:0,
+items:1,
+autoplay:true,
+navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
+  nav:true,
+dots:false,
+autoplayHoverPause: true,
+autoplaySpeed: 800,
+  responsive:{
+      0:{
+          items:1,
+          nav:false,
+      },
+      767:{
+          items:1,
+          nav:false,
+      },
+      992:{
+          items:1,
+          nav:false
+      },
+      1200:{
+          items:1,
+          nav:false
+      },
+      1600:{
+          items:1,
+          nav:true
+      }
+  }
+});
+
+// review-active
+$('.testmonial_active').owlCarousel({
+  loop:true,
+  margin:0,
+items:1,
+autoplay:true,
+navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
+  nav:true,
+dots:false,
+autoplayHoverPause: true,
+autoplaySpeed: 800,
+  responsive:{
+      0:{
+          items:1,
+          dots:false,
+          nav:false,
+      },
+      767:{
+          items:1,
+          dots:false,
+          nav:false,
+      },
+      992:{
+          items:1,
+          nav:false
+      },
+      1200:{
+          items:1,
+          nav:false
+      },
+      1500:{
+          items:1
+      }
+  }
+});
+
+// review-active
+$('.expert_active').owlCarousel({
+  loop:true,
+  margin:30,
+items:1,
+autoplay:true,
+navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
+  nav:true,
+dots:false,
+autoplayHoverPause: true,
+autoplaySpeed: 800,
+  responsive:{
+      0:{
+          items:1,
+          nav:false
+      },
+      767:{
+          items:2,
+          nav:false
+      },
+      992:{
+          items:3
+      },
+      1200:{
+          items:4
+      },
+      1500:{
+          items:4
+      }
+  }
+});
+
+// for filter
+  // init Isotope
+  var $grid = $('.grid').isotope({
+    itemSelector: '.grid-item',
+    percentPosition: true,
+    masonry: {
+      // use outer width of grid-sizer for columnWidth
+      columnWidth: 1
+    }
+  });
+
+  // filter items on button click
+  $('.portfolio-menu').on('click', 'button', function () {
+    var filterValue = $(this).attr('data-filter');
+    $grid.isotope({ filter: filterValue });
+  });
+
+  //for menu active class
+  $('.portfolio-menu button').on('click', function (event) {
+    $(this).siblings('.active').removeClass('active');
+    $(this).addClass('active');
+    event.preventDefault();
 	});
+  
+  // wow js
+  new WOW().init();
 
-	///////////////////////////
-	// Smooth scroll
-	$("#nav .main-nav a[href^='#']").on('click', function(e) {
-		e.preventDefault();
-		var hash = this.hash;
-		$('html, body').animate({
-			scrollTop: $(this.hash).offset().top
-		}, 600);
-	});
+  // counter 
+  $('.counter').counterUp({
+    delay: 10,
+    time: 10000
+  });
 
-	$('#back-to-top').on('click', function(){
-		$('body,html').animate({
-			scrollTop: 0
-		}, 600);
-	});
+/* magnificPopup img view */
+$('.popup-image').magnificPopup({
+	type: 'image',
+	gallery: {
+	  enabled: true
+	}
+});
 
-	///////////////////////////
-	// Btn nav collapse
-	$('#nav .nav-collapse').on('click', function() {
-		$('#nav').toggleClass('open');
-	});
+/* magnificPopup img view */
+$('.img-pop-up').magnificPopup({
+	type: 'image',
+	gallery: {
+	  enabled: true
+	}
+});
 
-	///////////////////////////
-	// Mobile dropdown
-	$('.has-dropdown a').on('click', function() {
-		$(this).parent().toggleClass('open-drop');
-	});
+/* magnificPopup video view */
+$('.popup-video').magnificPopup({
+	type: 'iframe'
+});
 
-	///////////////////////////
-	// On Scroll
-	$(window).on('scroll', function() {
-		var wScroll = $(this).scrollTop();
 
-		// Fixed nav
-		wScroll > 1 ? $('#nav').addClass('fixed-nav') : $('#nav').removeClass('fixed-nav');
+  // scrollIt for smoth scroll
+  $.scrollIt({
+    upKey: 38,             // key code to navigate to the next section
+    downKey: 40,           // key code to navigate to the previous section
+    easing: 'linear',      // the easing function for animation
+    scrollTime: 600,       // how long (in ms) the animation takes
+    activeClass: 'active', // class given to the active nav element
+    onPageChange: null,    // function(pageIndex) that is called when page is changed
+    topOffset: 0           // offste (in px) for fixed top navigation
+  });
 
-		// Back To Top Appear
-		wScroll > 700 ? $('#back-to-top').fadeIn() : $('#back-to-top').fadeOut();
-	});
+  // scrollup bottom to top
+  $.scrollUp({
+    scrollName: 'scrollUp', // Element ID
+    topDistance: '4500', // Distance from top before showing element (px)
+    topSpeed: 300, // Speed back to top (ms)
+    animation: 'fade', // Fade, slide, none
+    animationInSpeed: 200, // Animation in speed (ms)
+    animationOutSpeed: 200, // Animation out speed (ms)
+    scrollText: '<i class="fa fa-angle-double-up"></i>', // Text for element
+    activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
+  });
 
-	///////////////////////////
-	// magnificPopup
-	$('.work').magnificPopup({
-		delegate: '.lightbox',
-		type: 'image'
-	});
 
-	///////////////////////////
-	// Owl Carousel
-	$('#about-slider').owlCarousel({
-		items:1,
-		loop:true,
-		margin:15,
-		nav: true,
-		navText : ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
-		dots : true,
-		autoplay : true,
-		animateOut: 'fadeOut'
-	});
+  // blog-page
 
-	$('#testimonial-slider').owlCarousel({
-		loop:true,
-		margin:15,
-		dots : true,
-		nav: false,
-		autoplay : true,
-		responsive:{
-			0: {
-				items:1
-			},
-			992:{
-				items:2
+  //brand-active
+$('.brand-active').owlCarousel({
+  loop:true,
+  margin:30,
+items:1,
+autoplay:true,
+  nav:false,
+dots:false,
+autoplayHoverPause: true,
+autoplaySpeed: 800,
+  responsive:{
+      0:{
+          items:1,
+          nav:false
+
+      },
+      767:{
+          items:4
+      },
+      992:{
+          items:7
+      }
+  }
+});
+
+// blog-dtails-page
+
+  //project-active
+$('.project-active').owlCarousel({
+  loop:true,
+  margin:30,
+items:1,
+// autoplay:true,
+navText:['<i class="Flaticon flaticon-left-arrow"></i>','<i class="Flaticon flaticon-right-arrow"></i>'],
+nav:true,
+dots:false,
+// autoplayHoverPause: true,
+// autoplaySpeed: 800,
+  responsive:{
+      0:{
+          items:1,
+          nav:false
+
+      },
+      767:{
+          items:1,
+          nav:false
+      },
+      992:{
+          items:2,
+          nav:false
+      },
+      1200:{
+          items:1,
+      },
+      1501:{
+          items:2,
+      }
+  }
+});
+
+if (document.getElementById('default-select')) {
+  $('select').niceSelect();
+}
+
+  //about-pro-active
+$('.details_active').owlCarousel({
+  loop:true,
+  margin:0,
+items:1,
+// autoplay:true,
+navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
+nav:true,
+dots:false,
+// autoplayHoverPause: true,
+// autoplaySpeed: 800,
+  responsive:{
+      0:{
+          items:1,
+          nav:false
+
+      },
+      767:{
+          items:1,
+          nav:false
+      },
+      992:{
+          items:1,
+          nav:false
+      },
+      1200:{
+          items:1,
+      }
+  }
+});
+
+});
+
+// resitration_Form
+$(document).ready(function() {
+	$('.popup-with-form').magnificPopup({
+		type: 'inline',
+		preloader: false,
+		focus: '#name',
+
+		// When elemened is focused, some mobile browsers in some cases zoom in
+		// It looks not nice, so we disable it:
+		callbacks: {
+			beforeOpen: function() {
+				if($(window).width() < 700) {
+					this.st.focus = false;
+				} else {
+					this.st.focus = '#name';
+				}
 			}
 		}
 	});
+});
 
-	// ========================
-	$(window).scroll(function() {
-		if ($(this).scrollTop() > 100) {
-		  $('.scrollup').fadeIn();
-		} else {
-		  $('.scrollup').fadeOut();
-		}
-	  });
-	
-	  $('.scrollup').click(function() {
-		$("html, body").animate({
-		  scrollTop: 0
-		}, 1000);
-		return false;
-	  });
-	
-	  // local scroll
-	  jQuery('.navbar').localScroll({
-		hash: true,
-		offset: {
-		  top: 0
-		},
-		duration: 800,
-		easing: 'easeInOutExpo'
-	  });
-	
-	  $('.scrollto').on('click', function(e) {
-		  e.preventDefault();
-		  var target = $(this.hash);
-		  $('html, body').animate({
-			scrollTop: target.offset().top - 60
-		  }, 1500, 'easeInOutExpo');
-	  });
-	
-	
-	  // portfolio
-	  if ($('.isotopeWrapper').length) {
-	
-		var $container = $('.isotopeWrapper');
-		var $resize = $('.isotopeWrapper').attr('id');
-		// initialize isotope
-	
-		$container.isotope({
-		  itemSelector: '.isotopeItem',
-		  resizable: false, // disable normal resizing
-		  masonry: {
-			columnWidth: $container.width() / $resize
-		  }
-	
-		});
-	
-		$('#filter a').click(function() {
-	
-		  $('#filter a').removeClass('current');
-		  $(this).addClass('current');
-		  var selector = $(this).attr('data-filter');
-		  $container.isotope({
-			filter: selector,
-			animationOptions: {
-			  duration: 1000,
-			  easing: 'easeOutQuart',
-			  queue: false
-			}
-		  });
-		  return false;
-		});
-	
-	
-		$(window).smartresize(function() {
-		  $container.isotope({
-			// update columnWidth to a percentage of container width
-			masonry: {
-			  columnWidth: $container.width() / $resize
-			}
-		  });
-		});
-	  }
-	
-	  $(".navbar-collapse a").on('click', function() {
-	  $(".navbar-collapse").removeClass('in');
-	  $(".navbar-collapse").addClass('collapse');
-	  });
 
-})(jQuery);
+
+//------- Mailchimp js --------//  
+function mailChimp() {
+  $('#mc_embed_signup').find('form').ajaxChimp();
+}
+mailChimp();
+
+
+
+        // Search Toggle
+        $("#search_input_box").hide();
+        $("#search").on("click", function () {
+            $("#search_input_box").slideToggle();
+            $("#search_input").focus();
+        });
+        $("#close_search").on("click", function () {
+            $('#search_input_box').slideUp(500);
+        });
+        // Search Toggle
+        $("#search_input_box").hide();
+        $("#search_1").on("click", function () {
+            $("#search_input_box").slideToggle();
+            $("#search_input").focus();
+        });
+
+})(jQuery);	
